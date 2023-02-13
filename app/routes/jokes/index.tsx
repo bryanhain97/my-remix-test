@@ -17,7 +17,7 @@ export default function Jokes() {
             <h2 className="text-2xl uppercase underline mb-6 text-slate-500">Click to see joke:</h2>
             {data.jokesItemList.map(({ id, name }) => {
                 return (
-                    <div key={id} className="joke flex align-bottom h-10">
+                    <div key={id} className="joke flex h-10 gap-x-12">
                         <Link to={id}>
                             <span className="text-lg text-slate-600 text">{name}</span>
                         </Link>
