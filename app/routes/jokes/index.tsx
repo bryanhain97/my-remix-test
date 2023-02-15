@@ -4,8 +4,13 @@ import { useLoaderData, Link } from "@remix-run/react"
 import { db } from "~/utils/db.server"
 
 export const loader = async ({ params }: LoaderArgs) => {
+    // be specific with fetching data so we don't overfetch and sending to much data to the client
     return json({
-        jokesItemList: await db.joke.findMany({})
+        jokesItemList: await db.joke.findMany({
+            select: { id: true, name: true },
+            take: 2,
+            orderBy: { createdAt: "desc" }
+        })
     })
 }
 

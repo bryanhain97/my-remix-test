@@ -1,10 +1,12 @@
-import { ActionArgs, ActionFunction, LoaderArgs, Response } from "@remix-run/node"
-import { json, redirect } from '@remix-run/node'
+import type { ActionFunction, LoaderArgs } from "@remix-run/node"
+import { json, redirect, Response } from '@remix-run/node'
 import { useLoaderData } from "@remix-run/react"
 import { db } from '~/utils/db.server'
 import log, { Color } from '~/utils/log';
 
 
+
+// if a non GET request is being made to the route, the action method gets called before loader
 export const loader = async ({ params }: LoaderArgs) => {
     const { jokeId } = params;
     log(`Joke found: ${jokeId}`, Color.FgGreen);
@@ -14,7 +16,7 @@ export const loader = async ({ params }: LoaderArgs) => {
     })
 }
 
-export const action: ActionFunction = async ({ params, request, context }: ActionArgs) => {
+export const action: ActionFunction = async ({ params, request, context }) => {
     const form = await request.formData();
     const intent = form.get('intent');
     const { jokeId } = params
@@ -46,6 +48,27 @@ export default function JokeRoute() {
         </div>
     )
 }
+
+// export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
+//     log('Request to route has been catched by ErrorBoundary.', Color.FgRed)
+//     return (
+//         <div>
+//             Oops! an error has occured
+//         </div>
+//     )
+// }
+// export const CatchBoundary: CatchBoundaryComponent = () => {
+//     const caught = useCatch();
+//     console.log(caught)
+//     // const { data: dataString } = caught;
+//     // const myData = JSON.parse(dataString)
+//     log('Request to Route has been catched by CatchBoundary.', Color.FgRed)
+//     return (
+//         <div>
+//             catchboundary has occured
+//         </div>
+//     )
+// }
 
 // import type { ActionFunction } from "@remix-run/node";
 // import { json, redirect } from "@remix-run/node";

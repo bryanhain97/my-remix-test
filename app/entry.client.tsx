@@ -3,6 +3,9 @@ import { startTransition, StrictMode } from "react";
 import { hydrateRoot } from "react-dom/client";
 
 function hydrate() {
+  /**
+   * Define function here which gets called ONCE on initial render
+   */
   startTransition(() => {
     hydrateRoot(
       document,

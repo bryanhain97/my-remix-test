@@ -1,4 +1,4 @@
-import type { EntryContext } from "@remix-run/node";
+import type { EntryContext, HandleDataRequestFunction } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
 import { renderToString } from "react-dom/server";
 
@@ -19,3 +19,14 @@ export default function handleRequest(
     status: responseStatusCode,
   });
 }
+// this is an optional export
+// export const handleDataRequest: HandleDataRequestFunction =
+//   (
+//     response: Response,
+//     // same args that get passed to the action or loader that was called
+//     { request, params, context }
+//   ) => {
+//     console.log('REQUEST COMING IN')
+//     response.headers.set("x-custom", "yay!");
+//     return response;
+//   };
