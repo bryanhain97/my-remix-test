@@ -19,3 +19,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 export { db };
+
+/**
+ * sudo npx prisma studio => START WEB UI
+ */
