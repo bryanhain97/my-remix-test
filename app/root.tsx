@@ -1,6 +1,6 @@
 import styles from './styles/app.css'
 import type { MetaFunction } from "@remix-run/node";
-import { LiveReload, Outlet, Scripts, Links, Link } from "@remix-run/react";
+import { LiveReload, Outlet, Scripts, Links, Link, Meta } from "@remix-run/react";
 import { AiFillHome } from 'react-icons/ai'
 import { GiCardJoker } from 'react-icons/gi'
 
@@ -39,4 +39,35 @@ export default function App() {
       </body>
     </html>
   );
+}
+
+export function ErrorBoundary({ error }: { error: Error }) {
+  if (error instanceof Error) {
+    return (
+      <html>
+        <head>
+          <title>Oh no!</title>
+          <Meta />
+          <Links />
+        </head>
+        <body className="w-screen h-screen flex justify-center items-center">
+          <h2 className="text-red-600">{error?.message}</h2>
+          <Scripts />
+        </body>
+      </html>
+    );
+  }
+  return (
+    <html>
+      <head>
+        <title>Oh no!</title>
+        <Meta />
+        <Links />
+      </head>
+      <body className="w-screen h-screen flex justify-center items-center">
+        <h2 className="text-red-600">Something went wrong.</h2>
+        <Scripts />
+      </body>
+    </html>
+  )
 }

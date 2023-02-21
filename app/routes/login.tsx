@@ -2,7 +2,6 @@ import type {
     ActionArgs,
     LinksFunction,
 } from "@remix-run/node";
-// import { json } from "@remix-run/node";
 import {
     Link,
     useActionData,
@@ -13,7 +12,7 @@ import stylesUrl from "~/styles/login.css";
 import { db } from "~/utils/db.server";
 import log, { Color } from "~/utils/log";
 import { badRequest } from "~/utils/request.server";
-import { login } from '~/utils/session.server';
+import { login, createUserSession } from '~/utils/session.server';
 
 export const links: LinksFunction = () => [
     { rel: "stylesheet", href: stylesUrl },
@@ -21,12 +20,7 @@ export const links: LinksFunction = () => [
 
 
 export const action = async ({ request }: ActionArgs) => {
-    /**
-     * 1. get formData
-     * 2. check if formData shape for type
-     * 3. check if formData is in correct shape if not create fieldsErrors
-     * 4. handle loginType 'login' || 'register'
-     */
+
     const form = await request.formData();
     const loginType = form.get("loginType");
     const username = form.get("username");
@@ -68,11 +62,7 @@ export const action = async ({ request }: ActionArgs) => {
                 })
             }
             log({ user }, Color.FgBlue);
-            return badRequest({
-                fieldErrors,
-                fields,
-                formError: 'Not implemented'
-            })
+            return createUserSession(user.id, redirectTo)
         }
         case "register": {
             const userExists = await db.user.findFirst({
@@ -85,8 +75,6 @@ export const action = async ({ request }: ActionArgs) => {
                     formError: `User with username ${username} already exists`,
                 });
             }
-            // create the user
-            // create their session and redirect to /jokes
             return badRequest({
                 fieldErrors: null,
                 fields,
